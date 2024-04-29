@@ -37,7 +37,7 @@ force_destroy = true
 
 
 #beanstalk 
-create_elasticbeanstalk = false
+create_elasticbeanstalk = true
 beanstalk_app_name = "auth"
 tier               = "WebServer"
 
@@ -64,7 +64,7 @@ RootVolumeType = "gp2"
 port           = 80
 lb_protocol    = "HTTP"
 
-path_to_upload = "/Users/andriizachepilo/myproject/Elasticbeanstalk-WebServer/newestapp.zip"
+path_to_upload = "/Users/andriizachepilo/myproject/Elasticbeanstalk-WebServer/app/newest.zip"
 s3_key         = "bnstlk/app.zip"
 
 

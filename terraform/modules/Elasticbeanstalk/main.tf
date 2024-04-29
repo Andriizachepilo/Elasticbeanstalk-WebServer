@@ -3,7 +3,7 @@ resource "aws_elastic_beanstalk_application" "auth_app" {
 }
 
 resource "aws_elastic_beanstalk_application_version" "public_version" {
-  count = var.create_elasticbeanstalk ? 1 : 0
+  count       = var.create_elasticbeanstalk ? 1 : 0
   name        = var.version_label
   application = aws_elastic_beanstalk_application.auth_app.name
   bucket      = var.s3bucket_id
@@ -12,12 +12,12 @@ resource "aws_elastic_beanstalk_application_version" "public_version" {
 
 
 resource "aws_elastic_beanstalk_environment" "public_environnment" {
-  count = var.create_elasticbeanstalk ? 1 : 0 
+  count               = var.create_elasticbeanstalk ? 1 : 0
   name                = var.env_name
   application         = aws_elastic_beanstalk_application.auth_app.name
   solution_stack_name = var.solution_stack_name
-  tier                = var.tier                 # webserver
-  version_label       = var.version_label #a uniq version for this environmnet
+  tier                = var.tier          # webserver
+  version_label       = "default1" #a uniq version for this environmnet
 
 
 
@@ -37,19 +37,19 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
     name      = "AssociatePublicIpAddress"
     value     = var.associate_public_address
   }
-    setting {
+  setting {
     namespace = "aws:ec2:vpc"
     name      = "Subnets"
     value     = join(",", sort(var.ec2_subnets))
   }
 
-setting {
+  setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "SecurityGroups"
     value     = join(",", var.asg_sg)
   }
 
-setting {
+  setting {
     namespace = "aws:autoscaling:asg"
     name      = "Availability Zones"
     value     = var.availability_zones_selector
@@ -66,13 +66,13 @@ setting {
     value     = var.autoscale_max
   }
 
-   setting {
+  setting {
     namespace = "aws:ec2:instances"
     name      = "InstanceTypes"
     value     = var.instance_type
   }
 
-setting {
+  setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "EC2KeyName"
     value     = var.keypair
@@ -80,29 +80,29 @@ setting {
 
   #lb#####
 
-   setting {
+  setting {
     namespace = "aws:elasticbeanstalk:environment"
     name      = "EnvironmentType"
     value     = var.environment_type
   }
-    setting {
+  setting {
     namespace = "aws:elasticbeanstalk:environment"
     name      = "Loadbalancertype"
     value     = var.loadbalancer_type
   }
-setting {
+  setting {
     namespace = "aws:ec2:vpc"
     name      = "ELBSubnets"
     value     = join(",", sort(var.lb_subnets))
   }
 
-#  setting {
-#     # namespace = "aws:elbv2:loadbalancer"
-#     # name      = "SecurityGroups"
-#     namespace = "aws:elb:loadbalancer"
-#     name      = "ManagedSecurityGroup"
-#     value     = join(",", var.public_env_lb_sg)
-#   }
+  #  setting {
+  #     # namespace = "aws:elbv2:loadbalancer"
+  #     # name      = "SecurityGroups"
+  #     namespace = "aws:elb:loadbalancer"
+  #     name      = "ManagedSecurityGroup"
+  #     value     = join(",", var.public_env_lb_sg)
+  #   }
 
 
   setting {
@@ -117,9 +117,9 @@ setting {
     value     = var.lb_protocol
   }
 
- 
 
-setting {
+
+  setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "EC2KeyName"
     value     = var.keypair
@@ -131,8 +131,8 @@ setting {
     name      = "IamInstanceProfile"
     value     = aws_iam_instance_profile.ec2_iam_instance_profile1.name #issue
   }
-  
-setting {
+
+  setting {
     namespace = "aws:elasticbeanstalk:environment"
     name      = "ServiceRole"
     value     = aws_iam_role.service_role321.name #issue
@@ -164,7 +164,7 @@ setting {
   #             },
   #not the same 
 
- 
+
 
 
 
@@ -180,10 +180,10 @@ setting {
   setting {
     namespace = "aws:elasticbeanstalk:environment:process:default"
     name      = "StickinessEnabled"
-    value     = true  #false ? sg for load balancer ????
+    value     = true #false ? sg for load balancer ????
   }
 
-  
+
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
