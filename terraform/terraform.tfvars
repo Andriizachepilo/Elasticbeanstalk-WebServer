@@ -64,7 +64,7 @@ RootVolumeType = "gp2"
 port           = 80
 lb_protocol    = "HTTP"
 
-path_to_upload = "/Users/andriizachepilo/myproject/Elasticbeanstalk-WebServer/app/newest.zip"
+path_to_upload = "/Users/andriizachepilo/myproject/Elasticbeanstalk-WebServer/app/app.zip"
 s3_key         = "bnstlk/app.zip"
 
 

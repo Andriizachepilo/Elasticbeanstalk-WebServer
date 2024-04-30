@@ -1,7 +1,3 @@
-// server start: nodemon app.js
-// mongodb start (form workspace folder): ../mongostart
-
-
 const express = require('express');
 const path = require('path');
 const exphbs = require('express-handlebars');
