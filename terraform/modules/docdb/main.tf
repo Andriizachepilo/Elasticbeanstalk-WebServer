@@ -1,4 +1,5 @@
 resource "aws_docdb_cluster" "docdb" {
+  count                  = var.create_elasticbeanstalk ? 0 : 0
   engine                 = var.engine
   engine_version         = var.engine_version
   master_username        = local.db_username
@@ -11,8 +12,8 @@ resource "aws_docdb_cluster" "docdb" {
 }
 
 resource "aws_docdb_cluster_instance" "docdb_instance" {
- 
-  cluster_identifier = aws_docdb_cluster.docdb.id
+  count              = var.create_elasticbeanstalk ? 0 : 0
+  cluster_identifier = aws_docdb_cluster.docdb[*].id
   instance_class     = var.instance_class
   engine             = var.engine
 

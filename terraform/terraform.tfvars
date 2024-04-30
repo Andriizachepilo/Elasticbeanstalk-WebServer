@@ -37,7 +37,7 @@ force_destroy = true
 
 
 #beanstalk 
-create_elasticbeanstalk = true
+create_elasticbeanstalk = false
 beanstalk_app_name = "auth"
 tier               = "WebServer"
 

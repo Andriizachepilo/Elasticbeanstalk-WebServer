@@ -29,6 +29,7 @@ module "docdb" {
 
   master_password = var.master_password
   master_username = var.master_username
+  create_elasticbeanstalk = var.create_elasticbeanstalk
 
 }
 

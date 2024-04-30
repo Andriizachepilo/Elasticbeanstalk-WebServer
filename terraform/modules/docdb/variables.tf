@@ -18,6 +18,7 @@ variable "skip_final_snapshot" {
   type = bool
 }
 
+
 variable "docdb_sg" {
   type = list(string) // ???????????????
 }
@@ -34,3 +35,6 @@ variable "instance_class" {
   type = string
 }
 
+variable "create_elasticbeanstalk" {
+  type = string
+}
