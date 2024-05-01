@@ -116,20 +116,15 @@ variable "lb_scheme" {
   type = string
 }
 
-variable "listener_enabled" {
-  type = bool
-}
 
 
-variable "port" {
+variable "application_port" {
   type = number
 }
 
 variable "lb_protocol" {
   type = string
 }
-
-
 
 variable "autoscale_min" {
   type = number
@@ -187,3 +182,6 @@ variable "env_name" {
 }
 
 
+variable "region" {
+  type = string
+}

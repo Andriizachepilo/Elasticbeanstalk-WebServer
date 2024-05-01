@@ -17,14 +17,11 @@ variable "lb_scheme" {
   type = string
 }
 
-variable "listener_enabled" {
-  type = bool
-}
-variable "lb_sg" {
+variable "loadbalancer_sg" {
   type = list(string)
 }
 
-variable "port" {
+variable "application_port" {
   type = number
 }
 
@@ -68,9 +65,6 @@ variable "beanstalk_app_name" {
 variable "solution_stack_name" {
   type = string
 }
-
-
-
 
 variable "tier" {
   type = string

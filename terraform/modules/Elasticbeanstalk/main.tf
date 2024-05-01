@@ -1,3 +1,28 @@
+locals {
+
+  loadbalancer_https = [
+    {
+      namespace = "aws:elbv2:listener:443"
+      name      = "ListenerEnabled"
+      value     = "true"
+    },
+    {
+      namespace = "aws:elbv2:listener:443"
+      name      = "Protocol"
+      value     = var.lb_protocol
+    },
+    {
+      namespace = "aws:elb:listener:443"
+      name      = "InstancePort"
+      value     = var.application_port
+    }
+  ]
+
+}
+
+
+
+
 resource "aws_elastic_beanstalk_application" "auth_app" {
   name = var.beanstalk_app_name
 }
@@ -16,9 +41,17 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
   name                = var.env_name
   application         = aws_elastic_beanstalk_application.auth_app.name
   solution_stack_name = var.solution_stack_name
-  tier                = var.tier          # webserver
-  version_label       = "default1" #a uniq version for this environmnet
+  tier                = var.tier # webserver
+  version_label       = aws_elastic_beanstalk_application_version.public_version.name
 
+  dynamic "setting" {
+    for_each = var.lb_protocol == "HTTPS" ? local.loadbalancer_https : {}
+    content {
+      namespace = setting.value["namespace"]
+      name      = setting.value["name"]
+      value     = setting.value["value"]
+    }
+  }
 
 
   setting {
@@ -32,11 +65,13 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
     name      = "ELBscheme"
     value     = var.lb_scheme
   }
+
   setting {
     namespace = "aws:ec2:vpc"
     name      = "AssociatePublicIpAddress"
     value     = var.associate_public_address
   }
+
   setting {
     namespace = "aws:ec2:vpc"
     name      = "Subnets"
@@ -54,6 +89,10 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
     name      = "Availability Zones"
     value     = var.availability_zones_selector
   }
+
+
+  #####LOADBALANCER######
+
   setting {
     namespace = "aws:autoscaling:asg"
     name      = "MinSize"
@@ -85,6 +124,7 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
     name      = "EnvironmentType"
     value     = var.environment_type
   }
+
   setting {
     namespace = "aws:elasticbeanstalk:environment"
     name      = "Loadbalancertype"
@@ -96,19 +136,17 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
     value     = join(",", sort(var.lb_subnets))
   }
 
-  #  setting {
-  #     # namespace = "aws:elbv2:loadbalancer"
-  #     # name      = "SecurityGroups"
-  #     namespace = "aws:elb:loadbalancer"
-  #     name      = "ManagedSecurityGroup"
-  #     value     = join(",", var.public_env_lb_sg)
-  #   }
+  setting {
+    namespace = "aws:elbv2:loadbalancer"
+    name      = "SecurityGroups"
+    value     = join(",", var.loadbalancer_sg)
+  }
 
 
   setting {
     namespace = "aws:elasticbeanstalk:environment:process:default"
     name      = "Port"
-    value     = var.port
+    value     = var.lb_protocol == "HTTP" ? var.application_port : null
   }
 
   setting {
@@ -117,59 +155,35 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
     value     = var.lb_protocol
   }
 
-
-
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "EC2KeyName"
     value     = var.keypair
   }
 
-
   setting {
     namespace = "aws:autoscaling:launchconfiguration"
     name      = "IamInstanceProfile"
-    value     = aws_iam_instance_profile.ec2_iam_instance_profile1.name #issue
+    value     = aws_iam_instance_profile.ec2_iam_instance_profile1.name
   }
 
   setting {
     namespace = "aws:elasticbeanstalk:environment"
     name      = "ServiceRole"
-    value     = aws_iam_role.service_role321.name #issue
+    value     = aws_iam_role.service_role321.name
   }
 
   setting {
     namespace = "aws:elbv2:listener:default"
     name      = "ListenerEnabled"
-    value     = var.listener_enabled
+    value     = var.lb_protocol == "HTTP" ? true : false
   }
 
-  #  {
-  #               - name      = "ProxyServer"
-  #               - namespace = "aws:elasticbeanstalk:environment:proxy"
-  #               - resource  = ""
-  #               - value     = "nginx"
-  #             }
-  # - {
-  #               - name      = "ExternalExtensionsS3Bucket"
-  #               - namespace = "aws:elasticbeanstalk:environment"
-  #               - resource  = ""
-  #               - value     = ""
-  #             },
-  #           - {
-  #               - name      = "ExternalExtensionsS3Key"
-  #               - namespace = "aws:elasticbeanstalk:environment"
-  #               - resource  = ""
-  #               - value     = ""
-  #             },
-  #not the same 
-
-
-
-
-
-
-
+  setting {
+    name      = "ProxyServer"
+    namespace = "aws:elasticbeanstalk:environment:proxy"
+    value     = "nginx"
+  }
 
   setting {
     namespace = "aws:elasticbeanstalk:environment:process:default"
@@ -182,8 +196,6 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
     name      = "StickinessEnabled"
     value     = true #false ? sg for load balancer ????
   }
-
-
 
   setting {
     namespace = "aws:autoscaling:launchconfiguration"

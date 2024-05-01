@@ -1,20 +1,11 @@
+region = "eu-west-2"
+
 #VPC
 cidr_block         = "10.0.0.0/20"
 dns_support        = true #remove later on and add DNS hostnames?
 availability_zone  = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
 private_cidr_block = ["10.0.9.0/24", "10.0.8.0/24", "10.0.7.0/24"]
 public_cidr_block  = ["10.0.6.0/24", "10.0.5.0/24", "10.0.4.0/24"]
-
-#mongo
-db_subnet_group_name = "db_subnet_group"
-
-engine              = "docdb"
-engine_version      = "5.0.0"
-db_port             = 27017
-skip_final_snapshot = true
-instance_class      = "db.t3.medium"
-master_username     = "mongo_name"
-master_password     = "mongo_pass"
 
 
 
@@ -44,7 +35,8 @@ tier               = "WebServer"
 keypair                     = "elb-key"
 availability_zones_selector = "Any 3"
 loadbalancer_type           = "Application"
-listener_enabled            = true
+
+
 
 #public environment
 env_name                 = "public-env"
@@ -60,9 +52,9 @@ instance_type  = "t2.micro"
 health_path   = "/"
 MeasureName    = "CPUUtilization"
 RootSize       = 8
-RootVolumeType = "gp2"
-port           = 80
-lb_protocol    = "HTTP"
+RootVolumeType = "sc1"
+application_port = 0
+lb_protocol    = "HTTPS"
 
 path_to_upload = "/Users/andriizachepilo/myproject/Elasticbeanstalk-WebServer/app/app.zip"
 s3_key         = "bnstlk/app.zip"
