@@ -38,4 +38,18 @@ resource "aws_security_group" "lb_http" {
   }
 }
 
+resource "aws_security_group" "application_sg" {
+  name        = "EC2-sg"
+  description = "Allow ingress only from ELB and all egress"
+  vpc_id      = var.vpc_id
+
+  ingress = {
+    from_port       = 3000
+    to_port         = 3003
+    protocol        = "tcp"
+    Security_groups = [aws_security_group.lb_https.id]
+  }
+
+}
+
 

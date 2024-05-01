@@ -8,18 +8,6 @@ private_cidr_block = ["10.0.9.0/24", "10.0.8.0/24", "10.0.7.0/24"]
 public_cidr_block  = ["10.0.6.0/24", "10.0.5.0/24", "10.0.4.0/24"]
 
 
-
-#Security Groups
-
-# ingress_traffic = {
-#   "HTTP"  = { from_port = 80, to_port = 80, protocol = "tcp", cidr_block = ["0.0.0.0/0"] }
-#   "HTTPS" = { from_port = 443, to_port = 443, protocol = "tcp", cidr_block = ["0.0.0.0/0"] }
-# }
-
-# egress_traffic = {
-#   "all_traffic" = { from_port = 0, to_port = 0, protocol = "tcp", cidr_block = ["0.0.0.0/0"] }
-# }
-
 # S3-bucket
 
 
