@@ -17,7 +17,11 @@ variable "lb_scheme" {
   type = string
 }
 
-variable "loadbalancer_sg" {
+variable "loadbalancer_sg_80" {
+  type = list(string)
+}
+
+variable "loadbalancer_sg_443" {
   type = list(string)
 }
 

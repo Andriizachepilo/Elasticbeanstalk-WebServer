@@ -84,7 +84,7 @@ app.get('/about', (req,res) => {
 app.use('/users', users);
 app.use('/todos', todos);
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 443;
 
 app.listen(port, () => {
    console.log(`listening on port ${port}`);

@@ -1,11 +1,7 @@
-# output "ingress" {
-#   value = aws_security_group.ingress.id
-# }
+output "https" {
+  value = aws_security_group.lb_https.id
+}
 
-# output "egress" {
-#   value = aws_security_group.egress.id
-# }
-
-output "my_sg" {
-  value = aws_security_group.example.id
+output "http" {
+  value = aws_security_group.lb_http.id
 }

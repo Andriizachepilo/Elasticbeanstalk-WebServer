@@ -139,7 +139,7 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
   setting {
     namespace = "aws:elbv2:loadbalancer"
     name      = "SecurityGroups"
-    value     = join(",", var.loadbalancer_sg)
+    value     = var.lb_protocol == "HTTP" ? join(",", var.loadbalancer_sg_80) : join(",", var.loadbalancer_sg_443)
   }
 
 

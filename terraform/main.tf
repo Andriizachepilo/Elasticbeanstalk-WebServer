@@ -19,36 +19,37 @@ module "Security_groups" {
 module "S3-bucket" {
   source = "./modules/S3-bucket"
 
-  bucket_name   = var.bucket_name
-  force_destroy = var.force_destroy
+  bucket_name    = var.bucket_name
+  force_destroy  = var.force_destroy
 
   s3_key         = var.s3_key
   path_to_upload = var.path_to_upload
 }
 
 module "elasticbeanstalk" {
-  source                  = "./modules/Elasticbeanstalk"
-  create_elasticbeanstalk = var.create_elasticbeanstalk
+  source                      = "./modules/Elasticbeanstalk"
+  create_elasticbeanstalk     = var.create_elasticbeanstalk
 
-  beanstalk_app_name  = var.beanstalk_app_name
-  tier                = var.tier
-  solution_stack_name = var.solution_stack_name
-  version_label       = var.version_label
-  env_name            = var.env_name
-  environment_type    = var.environment_type
+  beanstalk_app_name          = var.beanstalk_app_name
+  tier                        = var.tier
+  solution_stack_name         = var.solution_stack_name
+  version_label               = var.version_label
+  env_name                    = var.env_name
+  environment_type            = var.environment_type
 
-  vpc_id                   = module.Virtual_Private_Cloud.vpc_id
-  ec2_subnets              = module.Virtual_Private_Cloud.public_subnets
-  associate_public_address = var.associate_public_address
+  vpc_id                      = module.Virtual_Private_Cloud.vpc_id
+  ec2_subnets                 = module.Virtual_Private_Cloud.public_subnets
+  associate_public_address    = var.associate_public_address
 
-  loadbalancer_type = var.loadbalancer_type
-  lb_scheme         = var.lb_scheme
-  lb_subnets        = module.Virtual_Private_Cloud.public_subnets
-  loadbalancer_sg   = [module.Security_groups.my_sg]
-  lb_protocol       = var.lb_protocol
-  application_port  = var.application_port
-  health_path       = var.health_path
+  loadbalancer_type           = var.loadbalancer_type
+  lb_scheme                   = var.lb_scheme
+  lb_subnets                  = module.Virtual_Private_Cloud.public_subnets
+  loadbalancer_sg_80          = [module.Security_groups.http]
+  loadbalancer_sg_443         = [module.Security_groups.https]
 
+  lb_protocol                 = var.lb_protocol
+  application_port            = var.application_port
+  health_path                 = var.health_path
 
   asg_sg                      = [module.Security_groups.my_sg]
   availability_zones_selector = var.availability_zones_selector
@@ -60,9 +61,6 @@ module "elasticbeanstalk" {
   RootSize                    = var.RootSize
   MeasureName                 = var.MeasureName
 
-
-  s3object_id = module.S3-bucket.aws_s3_public_object
-  s3bucket_id = module.S3-bucket.aws_s3_bucket_id
-
-
+  s3object_id                 = module.S3-bucket.aws_s3_public_object
+  s3bucket_id                 = module.S3-bucket.aws_s3_bucket_id
 }
