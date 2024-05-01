@@ -51,7 +51,7 @@ module "elasticbeanstalk" {
   application_port            = var.application_port
   health_path                 = var.health_path
 
-  asg_sg                      = [module.Security_groups.my_sg]
+  asg_sg                      = [module.Security_groups.ec2_sg]
   availability_zones_selector = var.availability_zones_selector
   autoscale_max               = var.autoscale_max
   autoscale_min               = var.autoscale_min
