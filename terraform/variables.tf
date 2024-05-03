@@ -1,31 +1,3 @@
-variable "engine" {
-  type = string
-}
-
-variable "engine_version" {
-  type = string
-}
-
-variable "master_username" {
-  type = string
-}
-
-variable "master_password" {
-  type = string
-}
-
-variable "skip_final_snapshot" {
-  type = bool
-}
-
-variable "db_subnet_group_name" {
-  type = string
-}
-
-variable "db_port" {
-  type = number
-}
-
 variable "dns_support" {
   type = bool
 }
@@ -45,16 +17,6 @@ variable "private_cidr_block" {
 variable "cidr_block" {
   type = string
 }
-
-
-# variable "ingress_traffic" {
-#   type = any
-# }
-
-# variable "egress_traffic" {
-#   type = any
-# }
-
 
 variable "bucket_name" {
   type = string
@@ -84,11 +46,6 @@ variable "loadbalancer_type" {
 }
 
 
-
-variable "instance_class" {
-  type = string
-}
-
 variable "s3_key" {
   type = string
 }
@@ -102,10 +59,6 @@ variable "beanstalk_app_name" {
 }
 
 
-
-
-
-################################################################
 variable "associate_public_address" {
   type = bool
 }
@@ -183,5 +136,22 @@ variable "env_name" {
 
 
 variable "region" {
+  type = string
+}
+
+variable "StickinessEnabled" {
+  type = bool
+}
+
+variable "proxy" {
+  type = string
+  default = "nginx"
+}
+
+variable "lb_ssl_policy" {
+  type = string
+}
+
+variable "lb_certificate_arn" {
   type = string
 }

@@ -3,7 +3,7 @@
 cd app
 
 output=$(node myscript.js)
-files_for_zip=("routes" "config" "helpers" "models" "views" "public" "app.js" "package.json" ".env" )
+files_for_zip=("routes" "config" "helpers" "models" "views" "public" "app.js" "package.json" ".env" "node_modules" )
 app="app.zip"
 
 

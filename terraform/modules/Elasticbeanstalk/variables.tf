@@ -115,3 +115,19 @@ variable "create_elasticbeanstalk" {
   type = bool
 }
 
+variable "StickinessEnabled" {
+  type = bool
+}
+
+variable "proxy" {
+  type = string
+  default = "nginx"
+}
+
+variable "lb_ssl_policy" {
+  type = string
+}
+
+variable "lb_certificate_arn" {
+  type = string
+}

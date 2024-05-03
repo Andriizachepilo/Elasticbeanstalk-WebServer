@@ -15,13 +15,20 @@ locals {
       namespace = "aws:elb:listener:443"
       name      = "InstancePort"
       value     = var.application_port
+    }, 
+    {
+      namespace = "aws:elbv2:listener:443"
+      name      = "SSLCertificateArns"
+      value     = var.lb_certificate_arn 
+    },
+    {
+      namespace = "aws:elbv2:listener:443"
+      name      = "SSLPolicy"
+      value     = var.lb_ssl_policy 
     }
   ]
 
 }
-
-
-
 
 resource "aws_elastic_beanstalk_application" "auth_app" {
   name = var.beanstalk_app_name
@@ -41,18 +48,17 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
   name                = var.env_name
   application         = aws_elastic_beanstalk_application.auth_app.name
   solution_stack_name = var.solution_stack_name
-  tier                = var.tier # webserver
-  version_label       = aws_elastic_beanstalk_application_version.public_version.name
+  tier                = var.tier
+  version_label       = var.version_label
 
   dynamic "setting" {
-    for_each = var.lb_protocol == "HTTPS" ? local.loadbalancer_https : {}
+    for_each = var.lb_protocol == "HTTPS" ? local.loadbalancer_https : []
     content {
       namespace = setting.value["namespace"]
       name      = setting.value["name"]
       value     = setting.value["value"]
     }
   }
-
 
   setting {
     namespace = "aws:ec2:vpc"
@@ -91,7 +97,7 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
   }
 
 
-  #####LOADBALANCER######
+
 
   setting {
     namespace = "aws:autoscaling:asg"
@@ -117,7 +123,6 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
     value     = var.keypair
   }
 
-  #lb#####
 
   setting {
     namespace = "aws:elasticbeanstalk:environment"
@@ -146,7 +151,7 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
   setting {
     namespace = "aws:elasticbeanstalk:environment:process:default"
     name      = "Port"
-    value     = var.lb_protocol == "HTTP" ? var.application_port : null
+    value     = var.lb_protocol == "HTTP" ? var.application_port : ""
   }
 
   setting {
@@ -170,7 +175,7 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
   setting {
     namespace = "aws:elasticbeanstalk:environment"
     name      = "ServiceRole"
-    value     = aws_iam_role.service_role321.name
+    value     = aws_iam_role.service_role3.name
   }
 
   setting {
@@ -182,7 +187,7 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
   setting {
     name      = "ProxyServer"
     namespace = "aws:elasticbeanstalk:environment:proxy"
-    value     = "nginx"
+    value     = var.proxy
   }
 
   setting {
@@ -194,7 +199,7 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
   setting {
     namespace = "aws:elasticbeanstalk:environment:process:default"
     name      = "StickinessEnabled"
-    value     = true #false ? sg for load balancer ????
+    value     = var.StickinessEnabled
   }
 
   setting {
@@ -230,18 +235,18 @@ data "aws_iam_policy_document" "service_role" {
   }
 }
 
-resource "aws_iam_role" "service_role321" {
-  name               = "service" #this one 
+resource "aws_iam_role" "service_role3" {
+  name               = "service"
   assume_role_policy = data.aws_iam_policy_document.service_role.json
 }
 
 resource "aws_iam_role_policy_attachment" "service_attachment_01" {
-  role       = aws_iam_role.service_role321.name
+  role       = aws_iam_role.service_role3.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkEnhancedHealth"
 }
 
 resource "aws_iam_role_policy_attachment" "service_attachment_02" {
-  role       = aws_iam_role.service_role321.name
+  role       = aws_iam_role.service_role3.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSElasticBeanstalkService"
 }
 
@@ -258,12 +263,12 @@ data "aws_iam_policy_document" "ec2_role" {
 }
 
 resource "aws_iam_role" "ec2_role" {
-  name               = "ec2-role" #this one 
+  name               = "ec2-role"
   assume_role_policy = data.aws_iam_policy_document.ec2_role.json
 }
 
 resource "aws_iam_instance_profile" "ec2_iam_instance_profile1" {
-  name = "iam-instance-profile228"
+  name = "iam-beanstalk-instance-profile"
   role = aws_iam_role.ec2_role.name
 }
 

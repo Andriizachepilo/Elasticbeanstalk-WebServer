@@ -28,14 +28,6 @@ resource "aws_subnet" "private_subnets" {
   }
 }
 
-resource "aws_db_subnet_group" "docdb_group" {
-  name       = var.db_subnet_group_name
-  subnet_ids = aws_subnet.public_subnets[*].id
-
-  tags = {
-    Name = "DB subnet group"
-  }
-}
 
 resource "aws_internet_gateway" "eb_igw" {
   vpc_id = aws_vpc.elastic_beanstalk_vpc.id
