@@ -1,87 +1,114 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const passport = require('passport');
-
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+const passport = require("passport");
+const AWS = require("aws-sdk");
+const cloudwatch = new AWS.CloudWatch();
 
 // load user model
-require('../models/User');
-const User = mongoose.model('users');
-
+require("../models/User");
+const User = mongoose.model("users");
 
 // user login route
-router.get('/login', (req,res) => {
-  res.render('users/login');
+router.get("/login", (req, res) => {
+  res.render("users/login");
 });
 
 // user login route
-router.get('/register', (req,res) => {
-  res.render('users/register');
+router.get("/register", (req, res) => {
+  res.render("users/register");
 });
 
+let loginCounter = 0;
 
 // login form post
-router.post('/login', (req,res,next) => {
-  passport.authenticate('local', {
-    successRedirect: '/todos',
-    failureRedirect: '/users/login',
-    failureFlash: true
-  })(req,res,next);
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", {
+    successRedirect: "/todos",
+    failureRedirect: "/users/login",
+    failureFlash: true,
+  })(req, res, next);
+
+  loginCounter++;
 });
+function publishMetricToCloudWatch(metricName, value) {
+  const params = {
+    MetricData: [
+      {
+        MetricName: metricName,
+        Dimensions: [
+          {
+            Name: "Endpoint",
+            Value: "/login",
+          },
+        ],
+        Unit: "Count",
+        Value: value,
+      },
+    ],
+    Namespace: "Default",
+  };
+}
 
 // register form post
-router.post('/register', (req,res) => {
+router.post("/register", (req, res) => {
   let errors = [];
   if (req.body.password != req.body.password2) {
-    errors.push({text: 'Passwords do not match!'});
+    errors.push({ text: "Passwords do not match!" });
   }
   if (req.body.password.length < 4) {
-    errors.push({text: 'Password must be at least 4 characters'}); 
+    errors.push({ text: "Password must be at least 4 characters" });
   }
   if (errors.length > 0) {
-    res.render('users/register', {
+    res.render("users/register", {
       errors: errors,
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-      password2: req.body.password2
-    })
+      password2: req.body.password2,
+    });
   } else {
     User.findOne({
-      email: req.body.email
+      email: req.body.email,
     }).then((user) => {
       if (user) {
-        req.flash('error_msg', 'A user with the same email already exists');
-        res.redirect('/users/register');
+        req.flash("error_msg", "A user with the same email already exists");
+        res.redirect("/users/register");
       } else {
         const newUser = new User({
           name: req.body.name,
           email: req.body.email,
-          password: req.body.password
+          password: req.body.password,
         });
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
             newUser.password = hash;
-            newUser.save().then((user) => {
-              req.flash('success_msg', 'You are now registered and can login');
-              res.redirect('/users/login');
-            }).catch(err => {
-              console.log(err);
-              return;
-            });
+            newUser
+              .save()
+              .then((user) => {
+                req.flash(
+                  "success_msg",
+                  "You are now registered and can login"
+                );
+                res.redirect("/users/login");
+              })
+              .catch((err) => {
+                console.log(err);
+                return;
+              });
           });
         });
       }
     });
   }
-})
+});
 
-router.get('/logout', (req,res) => {
+router.get("/logout", (req, res) => {
   req.logout();
-  req.flash('success_msg', 'You are logged out');
-  res.redirect('/users/login');
+  req.flash("success_msg", "You are logged out");
+  res.redirect("/users/login");
 });
 
 module.exports = router;
