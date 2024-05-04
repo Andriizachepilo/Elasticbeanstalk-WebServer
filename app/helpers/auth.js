@@ -1,6 +1,6 @@
 module.exports = {
   ensureAuthenticated: function(req, res, next) {
-    if (req.isAuthenticated()) { // because of passport
+    if (req.isAuthenticated()) { 
       return next();
     }
     req.flash('error_msg', 'Not authorized');

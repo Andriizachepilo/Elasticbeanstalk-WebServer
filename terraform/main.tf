@@ -28,6 +28,7 @@ module "S3-bucket" {
 
 module "elasticbeanstalk" {
   source                  = "./modules/Elasticbeanstalk"
+  
   create_elasticbeanstalk = var.create_elasticbeanstalk
 
   beanstalk_app_name  = var.beanstalk_app_name
@@ -48,9 +49,9 @@ module "elasticbeanstalk" {
   loadbalancer_sg_443 = [module.Security_groups.https]
   StickinessEnabled   = var.StickinessEnabled
   proxy               = var.proxy
-  
-  lb_certificate_arn  = var.lb_certificate_arn
-  lb_ssl_policy       = var.lb_ssl_policy
+
+  lb_certificate_arn = var.lb_certificate_arn
+  lb_ssl_policy      = var.lb_ssl_policy
 
   lb_protocol      = var.lb_protocol
   application_port = var.application_port

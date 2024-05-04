@@ -34,7 +34,7 @@ resource "aws_elastic_beanstalk_application" "auth_app" {
   name = var.beanstalk_app_name
 }
 
-resource "aws_elastic_beanstalk_application_version" "public_version" {
+resource "aws_elastic_beanstalk_application_version" "ebs_version" {
   count       = var.create_elasticbeanstalk ? 1 : 0
   name        = var.version_label
   application = aws_elastic_beanstalk_application.auth_app.name
@@ -43,7 +43,7 @@ resource "aws_elastic_beanstalk_application_version" "public_version" {
 }
 
 
-resource "aws_elastic_beanstalk_environment" "public_environnment" {
+resource "aws_elastic_beanstalk_environment" "ebs_environnment" {
   count               = var.create_elasticbeanstalk ? 1 : 0
   name                = var.env_name
   application         = aws_elastic_beanstalk_application.auth_app.name
@@ -97,8 +97,6 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
   }
 
 
-
-
   setting {
     namespace = "aws:autoscaling:asg"
     name      = "MinSize"
@@ -135,6 +133,7 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
     name      = "Loadbalancertype"
     value     = var.loadbalancer_type
   }
+
   setting {
     namespace = "aws:ec2:vpc"
     name      = "ELBSubnets"
@@ -146,7 +145,6 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
     name      = "SecurityGroups"
     value     = var.lb_protocol == "HTTP" ? join(",", var.loadbalancer_sg_80) : join(",", var.loadbalancer_sg_443)
   }
-
 
   setting {
     namespace = "aws:elasticbeanstalk:environment:process:default"
@@ -219,7 +217,6 @@ resource "aws_elastic_beanstalk_environment" "public_environnment" {
     name      = "MeasureName"
     value     = var.MeasureName
   }
-
 
 }
 
