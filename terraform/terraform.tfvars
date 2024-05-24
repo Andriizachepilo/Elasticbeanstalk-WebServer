@@ -2,11 +2,7 @@ region = "eu-west-2"
 
 #VPC
 cidr_block         = "10.0.0.0/20"
-<<<<<<< HEAD
 dns_support        = true
-=======
-dns_support        = true 
->>>>>>> 072add5b4c6903e3962c56301b792c80f002e98a
 availability_zone  = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
 private_cidr_block = ["10.0.9.0/24", "10.0.8.0/24", "10.0.7.0/24"]
 public_cidr_block  = ["10.0.6.0/24", "10.0.5.0/24", "10.0.4.0/24"]
