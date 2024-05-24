@@ -14,6 +14,7 @@ module "Security_groups" {
 
   vpc_id = module.Virtual_Private_Cloud.vpc_id
 
+  lb_protocol = var.lb_protocol
 }
 
 module "S3-bucket" {
@@ -27,8 +28,8 @@ module "S3-bucket" {
 }
 
 module "elasticbeanstalk" {
-  source                  = "./modules/Elasticbeanstalk"
-  
+  source = "./modules/Elasticbeanstalk"
+
   create_elasticbeanstalk = var.create_elasticbeanstalk
 
   beanstalk_app_name  = var.beanstalk_app_name

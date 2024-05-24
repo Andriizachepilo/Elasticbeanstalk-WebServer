@@ -9,3 +9,7 @@ variable "vpc_id" {
 # variable "egress_traffic" {
 #   type = any
 # }
+
+variable "lb_protocol" {
+  type = string
+}
