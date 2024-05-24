@@ -48,7 +48,7 @@ RootVolumeType = "gp2"
 
 proxy = "nginx"
 
-path_to_upload = "/Users/andriizachepilo/myproject/Elasticbeanstalk-WebServer/app/appjsjs.zip"
+path_to_upload = "/Users/andriizachepilo/myproject/Elasticbeanstalk-WebServer/app/app.zip"
 s3_key         = "bnstlk/app.zip"
 
 
