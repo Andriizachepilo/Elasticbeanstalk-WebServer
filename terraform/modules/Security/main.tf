@@ -14,7 +14,7 @@ resource "aws_security_group" "lb_https" {
     from_port   = 3000
     to_port     = 3003
     protocol    = "tcp"
-    cidr_blocks = "10.0.0.0/20"
+    cidr_blocks = ["10.0.0.0/20"]
   }
 }
 
@@ -34,7 +34,7 @@ resource "aws_security_group" "lb_http" {
     from_port   = 3000
     to_port     = 3003
     protocol    = "tcp"
-    cidr_blocks = "10.0.0.0/20"
+    cidr_blocks = ["10.0.0.0/20"]
   }
 }
 
