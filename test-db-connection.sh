@@ -2,42 +2,46 @@
 
 cd app
 
+package=("app.js" "package.json" ".env")
+app=()
 output=$(node myscript.js)
-files_for_zip=("routes" "config" "helpers" "models" "views" "public" "app.js" "package.json" ".env" "node_modules" )
-app="appjs.zip"
 
+
+for files in *; do 
+    if [[ -d $files ]]; then
+        package+=("$files")
+    elif [[ $files == *.zip ]]; then
+        app+=("$files")
+    fi
+done
 
 if [[ -e ".env" && -s ".env" ]]; then 
 
     if [[ "$output" == *"MongoDB connected..."* ]]; then
         echo "MongoDB url is correct!"
 
-       read -p "Do you want to zip the app to prepare it for deployment to Elastic Beanstalk? (y/n): " answer
+        read -p "Do you want to zip the app to prepare it for deployment to Elastic Beanstalk? (y/n): " answer
 
         if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
-        
-            if [[ -e "$app" ]]; then
-                rm "$app"
+
+            for zip_file in "${app[@]}"; do
+                if [[ -e "$zip_file" ]]; then
+                    rm "$zip_file"
+                fi
+            done
+
+            zip -r app.zip "${package[@]}"
+
+            read -p "Your app is ready for deployment with Terraform. Do you want to terraform apply? (y/n): " terraform_answer
+
+            if [[ "$terraform_answer" == "y" || "$terraform_answer" == "Y" ]]; then
+                cd ../terraform
+                terraform apply -auto-approve
             fi
-
-            zip -r "$app" "${files_for_zip[@]}"
-
-            cd ../terraform
-            terraform apply
         fi
     else 
-        echo "############################ MONGODB URL IS NOT CORRECT ######################################"
+        echo "Unable to connect to the MongoDB database. Please check your MongoDB URL"
     fi
+else 
+    echo "The .env file is either missing or empty. Please ensure it exists and contains valid configuration"
 fi
-
-
-
-
-
-
-
-
-
-
-
-
