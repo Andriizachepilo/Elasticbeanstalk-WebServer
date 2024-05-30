@@ -8,25 +8,30 @@ This project is a simple Todo app where users can register with their email addr
 - **Amazon S3**: Stores zip files of the application.
 - **MongoDB**: Serves as the database for the application.
 
-![Elastic Beanstalk](screenshots/eb.svg)
-![Amazon S3](screenshots/S3.svg)
-![MongoDB](screenshots/mongodb.svg)
+<p align="center">
+  <img src="screenshots/eb.svg" alt="Elastic Beanstalk" width="100"/>
+  <img src="screenshots/S3.svg" alt="Amazon S3" width="100"/>
+  <img src="screenshots/mongodb.png" alt="MongoDB" width="100"/>
+  <img src="screenshots/terraform.svg" alt="Terraform" width="100"/>
+  <img src="screenshots/nodejs.svg" alt="NodeJS" width="100"/>
+</p>
+
 
 ## Getting Started
 
 Before deploying the app, ensure you have the following installed:
 
-- [Terraform](https://www.terraform.io/downloads.html) ![Terraform Icon](screenshots/terraform.svg)
-- [Node.js](https://nodejs.org/en/download/) ![Node.js Icon](screenshots/nodejs.svg)
-- [MongoDB](https://www.mongodb.com/try/download/community) ![MongoDB Icon](screenshots/mongodb.svg)
-- [AWS CLI](https://aws.amazon.com/cli/) ![AWS CLI Icon](screenshots/aws.svg)
+- [Terraform](https://www.terraform.io/downloads.html) 
+- [Node.js](https://nodejs.org/en/download/) 
+- [MongoDB](https://www.mongodb.com/try/download/community)
+- [AWS CLI](https://aws.amazon.com/cli/) 
 
 ## Setup Instructions
 
 1. **Clone the repository**
 
     ```sh
-    git clone (https://github.com/Andriizachepilo/Elasticbeanstalk-WebServer)
+    git clone https://github.com/Andriizachepilo/Elasticbeanstalk-WebServer
     ```
 
 2. **Create a `.env` file**
