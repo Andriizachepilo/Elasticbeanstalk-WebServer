@@ -4,13 +4,13 @@ This project is a simple Todo app where users can register with their email addr
 
 ## Technologies Used
 <p align="center">
+  <img src="screenshots/terraform.svg" alt="Terraform" width="50" style="margin-right: 10px;"/>
   <img src="screenshots/eb.svg" alt="Elastic Beanstalk" width="50" style="margin-right: 10px;"/>
   <img src="screenshots/S3.svg" alt="Amazon S3" width="50" style="margin-right: 10px;"/>
   <img src="screenshots/mongodb.svg" alt="MongoDB" width="50" style="margin-right: 10px;"/>
-  <img src="screenshots/terraform.svg" alt="Terraform" width="50" style="margin-right: 10px;"/>
-  <img src="screenshots/nodejs.svg" alt="NodeJS" width="50"/>
 </p>
 
+- **Terraform**: Builds and manages the infrastructure on AWS where the application is deployed.
 - **AWS Elastic Beanstalk**: Deploys and manages the application.
 - **Amazon S3**: Stores zip files of the application.
 - **MongoDB**: Serves as the database for the application.
@@ -44,7 +44,7 @@ Before deploying the app, ensure you have the following installed:
     **Example `.env` file:**
 
     ```env
-    MONGODB_URL=mongodb://your-mongodb-url:port/dbname
+    DB=mongodb://your-mongodb-url:port/dbname
     ```
 
 3. **Check Terraform variables**
