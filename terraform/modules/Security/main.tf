@@ -47,7 +47,7 @@ resource "aws_security_group" "application_sg" {
     from_port       = 3000
     to_port         = 3003
     protocol        = "tcp"
-    security_groups = var.lb_protocol == "HTTP" ? [aws_security_group_lb_http.id] : [aws_security_group.lb_http.id]
+    security_groups = var.lb_protocol == "HTTP" ? [aws_security_group.lb_http.id] : [aws_security_group.lb_https.id]
   }
 
   egress {
