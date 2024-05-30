@@ -1,14 +1,85 @@
-Project Description: Todo List Application with User Authentication and MongoDB Integration
-Welcome to our Todo List Application project! This ongoing endeavor aims to develop a robust todo list application with user authentication features, seamless MongoDB integration, and deployment on AWS Elastic Beanstalk.
+# Todo App with AWS Elastic Beanstalk
 
-Key Features
-User Authentication: Our application prioritizes user security, offering a seamless registration and login process to ensure that users can securely access their todo lists.
-Todo List Management: With our application, users can effortlessly create, edit, delete, and mark tasks as completed within their todo lists, helping them stay organized and productive.
-MongoDB Integration: Leveraging the power of MongoDB, we've integrated a flexible and scalable database solution to store and manage user accounts and todo list items efficiently.
-Elastic Beanstalk Deployment: Our application environment is hosted on AWS Elastic Beanstalk, allowing for easy deployment and management of our application for public access.
-Application Load Balancer: To ensure reliability and scalability, all incoming traffic is routed through an Application Load Balancer, optimizing performance and user experience.
-Future Plans: While the core functionality is in place, we're continuously working on enhancing our application. In the near future, we plan to deploy CloudWatch to monitor user login activities and application performance metrics. Additionally, we're exploring the implementation of a chatbot feature to provide users with real-time assistance and support within the application.
+This project is a simple Todo app where users can register with their email addresses, create, edit, and delete Todo items. The application is deployed using AWS Elastic Beanstalk and utilizes various AWS services such as Amazon S3 for storing application files, MongoDB for the database, and a standard VPC setup with public and private subnets along with a NAT gateway.
 
+## Technologies Used
 
-Current Status
-While our project is still a work in progress, we're excited about the progress we've made so far. Stay tuned for updates as we continue to refine and enhance our application!
+- **AWS Elastic Beanstalk**: Deploys and manages the application.
+- **Amazon S3**: Stores zip files of the application.
+- **MongoDB**: Serves as the database for the application.
+
+![Elastic Beanstalk](screenshots/eb.svg)
+![Amazon S3](screenshots/S3.svg)
+![MongoDB](screenshots/mongodb.svg)
+
+## Getting Started
+
+Before deploying the app, ensure you have the following installed:
+
+- [Terraform](https://www.terraform.io/downloads.html) ![Terraform Icon](screenshots/terraform.svg)
+- [Node.js](https://nodejs.org/en/download/) ![Node.js Icon](screenshots/nodejs.svg)
+- [MongoDB](https://www.mongodb.com/try/download/community) ![MongoDB Icon](screenshots/mongodb.svg)
+- [AWS CLI](https://aws.amazon.com/cli/) ![AWS CLI Icon](screenshots/aws.svg)
+
+## Setup Instructions
+
+1. **Clone the repository**
+
+    ```sh
+    git clone (https://github.com/Andriizachepilo/Elasticbeanstalk-WebServer)
+    ```
+
+2. **Create a `.env` file**
+
+    Navigate to the `app/` directory and create a `.env` file based on the `.env.example` file. Update the MongoDB URL as required.
+
+    ```sh
+    cd app
+    cp .env.example .env
+    ```
+
+    **Example `.env` file:**
+
+    ```env
+    MONGODB_URL=mongodb://your-mongodb-url:port/dbname
+    ```
+
+3. **Check Terraform variables**
+
+    Review the `terraform.tfvars` file settings. Refer to the screenshot located at `screenshots/tfvars.png` for an example configuration.
+
+    ```sh
+    # Open the terraform.tfvars file and set the necessary variables
+    nano ../terraform/terraform.tfvars
+    ```
+
+4. **Create a Key Pair for Elastic Beanstalk**
+
+    You need a key pair to access the instances created by Elastic Beanstalk.
+
+5. **Create IAM User and Service Role**
+
+    An IAM user and service role will be created to allow Elastic Beanstalk to use EC2 instances, S3 bucket, and other resources.
+
+6. **Run the deployment script**
+
+    Run the `test-and-deploy` script to check the MongoDB connection, package the application, and deploy it using Terraform.
+
+    ```sh
+    ./test-and-deploy
+    ```
+
+## Project Architecture
+
+- **Elastic Beanstalk**: Deploys the application along with Load Balancer, Autoscaling Group, and optionally CloudFormation stack for resource management.
+- **Amazon S3**: Stores zip files containing application code.
+- **MongoDB**: Database for storing Todo items.
+- **VPC**: Configured with public and private subnets along with a NAT gateway.
+- **CloudWatch**: Monitors CPU utilization and other metrics.
+
+## Additional Resources
+
+- [Terraform Documentation](https://www.terraform.io/docs)
+- [Node.js Documentation](https://nodejs.org/en/docs/)
+- [MongoDB Documentation](https://docs.mongodb.com/)
+- [AWS CLI Documentation](https://aws.amazon.com/documentation/cli/)
