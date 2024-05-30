@@ -6,7 +6,7 @@ This project is a simple Todo app where users can register with their email addr
 <p align="center">
   <img src="screenshots/eb.svg" alt="Elastic Beanstalk" width="50" style="margin-right: 10px;"/>
   <img src="screenshots/S3.svg" alt="Amazon S3" width="50" style="margin-right: 10px;"/>
-  <img src="screenshots/mongodb.png" alt="MongoDB" width="50" style="margin-right: 10px;"/>
+  <img src="screenshots/mongodb.svg" alt="MongoDB" width="50" style="margin-right: 10px;"/>
   <img src="screenshots/terraform.svg" alt="Terraform" width="50" style="margin-right: 10px;"/>
   <img src="screenshots/nodejs.svg" alt="NodeJS" width="50"/>
 </p>
