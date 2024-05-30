@@ -3,19 +3,17 @@
 This project is a simple Todo app where users can register with their email addresses, create, edit, and delete Todo items. The application is deployed using AWS Elastic Beanstalk and utilizes various AWS services such as Amazon S3 for storing application files, MongoDB for the database, and a standard VPC setup with public and private subnets along with a NAT gateway.
 
 ## Technologies Used
+<p align="center">
+  <img src="screenshots/eb.svg" alt="Elastic Beanstalk" width="50" style="margin-right: 10px;"/>
+  <img src="screenshots/S3.svg" alt="Amazon S3" width="50" style="margin-right: 10px;"/>
+  <img src="screenshots/mongodb.png" alt="MongoDB" width="50" style="margin-right: 10px;"/>
+  <img src="screenshots/terraform.svg" alt="Terraform" width="50" style="margin-right: 10px;"/>
+  <img src="screenshots/nodejs.svg" alt="NodeJS" width="50"/>
+</p>
 
 - **AWS Elastic Beanstalk**: Deploys and manages the application.
 - **Amazon S3**: Stores zip files of the application.
 - **MongoDB**: Serves as the database for the application.
-
-<p align="center">
-  <img src="screenshots/eb.svg" alt="Elastic Beanstalk" width="100"/>
-  <img src="screenshots/S3.svg" alt="Amazon S3" width="100"/>
-  <img src="screenshots/mongodb.png" alt="MongoDB" width="100"/>
-  <img src="screenshots/terraform.svg" alt="Terraform" width="100"/>
-  <img src="screenshots/nodejs.svg" alt="NodeJS" width="100"/>
-</p>
-
 
 ## Getting Started
 
