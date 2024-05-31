@@ -7,6 +7,8 @@ module "Virtual_Private_Cloud" {
   private_cidr_block = var.private_cidr_block
   public_cidr_block  = var.public_cidr_block
 
+  associate_public_address = var.associate_public_address
+
 }
 
 module "Security_groups" {
@@ -40,7 +42,8 @@ module "elasticbeanstalk" {
   environment_type    = var.environment_type
 
   vpc_id                   = module.Virtual_Private_Cloud.vpc_id
-  ec2_subnets              = module.Virtual_Private_Cloud.public_subnets
+  public_ec2_subnets       = module.Virtual_Private_Cloud.public_subnets
+  private_ec2_subnets      = module.Virtual_Private_Cloud.private_subnets
   associate_public_address = var.associate_public_address
 
   loadbalancer_type   = var.loadbalancer_type

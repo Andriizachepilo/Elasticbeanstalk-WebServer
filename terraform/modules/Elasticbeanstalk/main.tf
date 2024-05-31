@@ -81,7 +81,7 @@ resource "aws_elastic_beanstalk_environment" "ebs_environnment" {
   setting {
     namespace = "aws:ec2:vpc"
     name      = "Subnets"
-    value     = join(",", sort(var.ec2_subnets))
+    value     = var.associate_public_address ? join(",", var.public_ec2_subnets) : join(",", var.private_ec2_subnets)
   }
 
   setting {
@@ -95,7 +95,6 @@ resource "aws_elastic_beanstalk_environment" "ebs_environnment" {
     name      = "Availability Zones"
     value     = var.availability_zones_selector
   }
-
 
   setting {
     namespace = "aws:autoscaling:asg"

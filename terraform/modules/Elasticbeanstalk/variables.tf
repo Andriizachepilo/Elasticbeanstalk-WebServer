@@ -2,7 +2,11 @@ variable "associate_public_address" {
   type = bool
 }
 
-variable "ec2_subnets" {
+variable "private_ec2_subnets" {
+  type = list(string)
+}
+
+variable "public_ec2_subnets" {
   type = list(string)
 }
 
@@ -13,9 +17,11 @@ variable "asg_sg" {
   type = list(string)
 }
 
+
 variable "lb_scheme" {
   type = string
 }
+
 
 variable "loadbalancer_sg_80" {
   type = list(string)

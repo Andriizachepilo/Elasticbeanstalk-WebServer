@@ -18,3 +18,6 @@ variable "private_cidr_block" {
   type = list(string)
 }
 
+variable "associate_public_address" {
+  type = bool
+}
