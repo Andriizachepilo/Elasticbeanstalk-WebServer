@@ -2,6 +2,13 @@
 
 This project is a simple Todo app where users can register with their email addresses, create, edit, and delete Todo items. The application is deployed using AWS Elastic Beanstalk and utilizes various AWS services such as Amazon S3 for storing application files, MongoDB for the database, and a standard VPC setup with public and private subnets along with a NAT gateway.
 
+![todo](screenshots/todo.png)
+Description: A screenshot of the Todo app's interface displaying a newly created Todo item with its title, details, due date, and creation date.
+
+![mongotodo](screenshots/mongotodo.png)
+Description: A screenshot of the MongoDB database showing the newly created Todo item stored with its respective fields.
+
+
 ## Technologies Used
 <p>
   <img src="screenshots/aws.svg" alt="AWS" width="50" style="margin-right: 10px;"/>
