@@ -12,7 +12,7 @@ Description: A screenshot of the MongoDB database showing the newly created Todo
 ## Technologies Used
 <p>
   <img src="screenshots/aws.svg" alt="AWS" width="50" style="margin-right: 10px;"/>
-  <img src="screenshots/mngdb.png" alt="MongoDB" width="50" style="margin-right: 10px;"/>
+  <img src="screenshots/mngdb.svg" alt="MongoDB" width="50" style="margin-right: 10px;"/>
   <img src="screenshots/terraform.svg" alt="Terraform" width="50" style="margin-right: 10px;"/>
 </p>
 
