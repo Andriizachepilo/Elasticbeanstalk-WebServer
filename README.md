@@ -1,4 +1,4 @@
-Todo App with AWS Elastic Beanstalk <img src="screenshots/bnstlk.svg" alt="Elastic Beanstalk" width="20" style="vertical-align: middle;"/>
+# Todo App with AWS Elastic Beanstalk <img src="screenshots/bnstlk.svg" alt="Elastic Beanstalk" width="40" style="vertical-align: middle;"/>
 
 This project is a simple Todo app where users can register with their email addresses, create, edit, and delete Todo items. The application is deployed using AWS Elastic Beanstalk and utilizes various AWS services such as Amazon S3 for storing application files, MongoDB for the database, and a standard VPC setup with public and private subnets along with a NAT gateway.
 
